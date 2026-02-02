@@ -2,6 +2,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
+local UIS = game:GetService("UserInputService")
 
 --// Remotes
 local BuyRemote = ReplicatedStorage.Events.buy
@@ -15,6 +16,7 @@ local dropdownOpen = false
 local autoBuyEgg = false
 local eggSpeed = 0.5
 local autoRoll = false
+local cashMethod = false
 
 --// GUI
 local gui = Instance.new("ScreenGui")
@@ -25,7 +27,7 @@ gui.Parent = player.PlayerGui
 -- 🔘 OPEN / CLOSE BUTTON
 local openBtn = Instance.new("TextButton")
 openBtn.Size = UDim2.new(0, 180, 0, 50)
-openBtn.Position = UDim2.new(0, 80, 0, 150) -- moved right and up
+openBtn.Position = UDim2.new(0, 80, 0, 150)
 openBtn.Text = "Terrible Scripts"
 openBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 openBtn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -35,7 +37,7 @@ openBtn.Parent = gui
 
 -- Main Frame
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 340, 0, 540) -- slightly smaller width, taller bottom
+frame.Size = UDim2.new(0, 340, 0, 620)
 frame.Position = UDim2.new(0.05, 0, 0.25, 0)
 frame.BackgroundColor3 = Color3.fromRGB(10,10,10)
 frame.BorderSizePixel = 0
@@ -183,7 +185,6 @@ sliderHandle.Parent = sliderFrame
 
 -- Slider Dragging
 local dragging = false
-local UIS = game:GetService("UserInputService")
 sliderHandle.MouseButton1Down:Connect(function()
 	dragging = true
 end)
@@ -203,13 +204,24 @@ end)
 -- Auto Roll Button
 local rollBtn = Instance.new("TextButton")
 rollBtn.Size = UDim2.new(1, -40, 0, 50)
-rollBtn.Position = UDim2.new(0, 20, 0, 500) -- fits nicely now
+rollBtn.Position = UDim2.new(0, 20, 0, 500)
 rollBtn.Text = "Auto Roll: OFF"
 rollBtn.BackgroundColor3 = Color3.fromRGB(25,25,25)
 rollBtn.TextColor3 = Color3.fromRGB(255,255,255)
 rollBtn.Font = Enum.Font.GothamBold
 rollBtn.TextScaled = true
 rollBtn.Parent = frame
+
+-- Cash Method Button
+local cashBtn = Instance.new("TextButton")
+cashBtn.Size = UDim2.new(1, -40, 0, 50)
+cashBtn.Position = UDim2.new(0, 20, 0, 560)
+cashBtn.Text = "CASH METHOD (COULD LAG GAME)"
+cashBtn.BackgroundColor3 = Color3.fromRGB(25,25,25)
+cashBtn.TextColor3 = Color3.fromRGB(255,255,255)
+cashBtn.Font = Enum.Font.GothamBold
+cashBtn.TextScaled = true
+cashBtn.Parent = frame
 
 -- OPEN / CLOSE GUI
 openBtn.MouseButton1Click:Connect(function()
@@ -245,6 +257,10 @@ rollBtn.MouseButton1Click:Connect(function()
 	rollBtn.Text = autoRoll and "Auto Roll: ON" or "Auto Roll: OFF"
 	rollBtn.BackgroundColor3 = autoRoll and Color3.fromRGB(0,255,255) or Color3.fromRGB(25,25,25)
 end)
+cashBtn.MouseButton1Click:Connect(function()
+	cashMethod = not cashMethod
+	cashBtn.BackgroundColor3 = cashMethod and Color3.fromRGB(0,255,255) or Color3.fromRGB(25,25,25)
+end)
 
 -- Loops
 task.spawn(function()
@@ -273,5 +289,19 @@ task.spawn(function()
 			RollRemote:InvokeServer()
 		end
 		task.wait(0.2)
+	end
+end)
+
+task.spawn(function()
+	while true do
+		if cashMethod then
+			for i = 1,10000 do
+				task.spawn(function()
+					local remote = ReplicatedStorage.Events.PlaceBestBaddies
+					local results = remote:InvokeServer()
+				end)
+			end
+		end
+		task.wait(1) -- small delay to avoid freezing the whole script
 	end
 end)
