@@ -279,7 +279,7 @@ end)
 task.spawn(function()
 	while true do
 		if autoBuyEgg then
-			EggRemote:InvokeServer("AngelEgg",3)
+			EggRemote:InvokeServer("MechEgg",3)
 		end
 		task.wait(eggSpeed)
 	end
