@@ -102,6 +102,8 @@ local diceList = {
 	"Disaster Dice",
 	"Impossible Dice",
 	"Limbo Dice",
+	"Yinyang Dice",
+	"Chronos Dice",
 }
 
 -- Dice Buttons
