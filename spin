@@ -227,7 +227,7 @@ end)
 task.spawn(function()
 	while true do
 		if autoBuyEgg then
-			for i = 1, 1 do -- 10 eggs per frame
+			for i = 1, 10 do -- 10 eggs per frame
 				task.spawn(function()
 					EggRemote:InvokeServer("MechEgg", 3)
 				end)
