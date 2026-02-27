@@ -111,7 +111,7 @@ layout.Padding = UDim.new(0,6)
 local diceList = {
 	"Basic Dice","Seraphic Dice","Galactic Dice","Eldritch Dice",
 	"Emperor Dice","Annihilation Dice","Disaster Dice",
-	"Impossible Dice","Limbo Dice","Yinyang Dice","Chronos Dice"
+	"Impossible Dice","Limbo Dice","Chronos Dice","Yinyang Dice","Matrix Dice","Uriel Dice"
 }
 
 for _,dice in ipairs(diceList) do
@@ -227,13 +227,9 @@ end)
 task.spawn(function()
 	while true do
 		if autoBuyEgg then
-			for i = 1, 0.5 do -- 10 eggs per frame
-				task.spawn(function()
-					EggRemote:InvokeServer("MechEgg", 3)
-				end)
-			end
+			EggRemote:InvokeServer("MechEgg",3)
 		end
-		task.wait() -- yields to next frame (~60 FPS)
+		task.wait(eggSpeed)
 	end
 end)
 
